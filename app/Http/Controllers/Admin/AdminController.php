@@ -241,4 +241,40 @@ class AdminController extends Controller
 
         return $validatedData;
     }
+
+    /**
+     * Function to view users
+     *
+     * @return void
+     */
+    public function viewUsers(){
+        $data['user'] = Auth::user();
+        $data['users'] = $this->userRepositoryInterface->all();
+        return view('admin.users', $data);
+    }
+
+    /**
+     * Function to switch admin level
+     *
+     * @param Request $request
+     * @return void
+     */
+    public function switchAdminLevel(Request $request)
+    {
+        $id = $request->id;
+        $status = $request->status;
+        $changeAdminLevel = $this->userRepositoryInterface->switchAdminLevel($id, $status);
+        return response()->json(['data' => $changeAdminLevel]);
+    }
+
+    /**
+     * Function to delete user
+     *
+     * @param User $user
+     * @return void
+     */
+    public function deleteUser(User $user){
+       $user->delete();
+        return response()->json(['data' => $user]); 
+    }
 }

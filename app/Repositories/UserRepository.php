@@ -72,27 +72,18 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->all();
     }
 
-    public function createUser($data)
-    {
-        // return $this->model->create($params);
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
     /**
-     * Function to create admin user
+     *Function to switch admin level
      *
+     * @param integer $id
+     * @param [type] $status
      * @return void
      */
-    public function createAdminUser(){
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'admin_level' => 1,
-            'password' => Hash::make($data['password']),
-        ]);
+    public function switchAdminLevel(int $id, $status)
+    {
+        $user = $this->find($id);
+        $user->admin_level = $status;
+        $user->save();
+        return $user;
     }
 }

@@ -65,3 +65,9 @@ Route::get('/confirm-order/{order}', 'Admin\AdminController@confirmOrder')->name
 Route::get('/disable-order/{order}', 'Admin\AdminController@disableConfirmation')->name('disable.confirmation');
 //flutterwabe webhook
 Route::get('/flutterwave-hook', 'RaveWebHookController@index')->name('flutterwave-hook');
+//route to change admin status
+Route::post('/switch-admin-status', 'Admin\AdminController@switchAdminLevel')->name('switch-admin-status');
+//route to delete user
+Route::delete('/delete-user/{user}', 'VirtualCardsController@deleteUser')->name('delete.user');
+//view users 
+Route::get('/view-users', 'Admin\AdminController@viewUsers')->name('view-users');

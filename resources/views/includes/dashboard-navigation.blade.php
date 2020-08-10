@@ -35,15 +35,15 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          {{-- <li class="nav-item">
             <a href=""  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Profile
-                {{-- <span class="right badge badge-danger">New</span> --}}
+                <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li>
+          </li> --}}
            <li class="nav-item">
            <a href="{{route('my-orders')}}"  class="nav-link">
               <i class="nav-icon fas fa-th"></i>
@@ -65,6 +65,16 @@
               </p>
             </a>
             <ul class="nav nav-treeview">
+
+               <li class="nav-item">
+               <a href="{{route('view-users')}}"  class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              Users
+                {{-- <span class="right badge badge-danger">New</span> --}}
+              </p>
+            </a>
+          </li>
                <li class="nav-item">
                <a href="{{route('view-books')}}"  class="nav-link">
               <i class="nav-icon fas fa-th"></i>

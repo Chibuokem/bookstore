@@ -63,3 +63,5 @@ Route::get('/sync-cards', 'VirtualCardsController@syncCards')->name('sync-cards'
 //route to confirm order
 Route::get('/confirm-order/{order}', 'Admin\AdminController@confirmOrder')->name('confirm.order');
 Route::get('/disable-order/{order}', 'Admin\AdminController@disableConfirmation')->name('disable.confirmation');
+//flutterwabe webhook
+Route::get('/flutterwave-hook', 'RaveWebHookController@index')->name('flutterwave-hook');

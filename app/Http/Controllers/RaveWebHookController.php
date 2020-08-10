@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Interfaces\BookRepositoryInterface;
 use App\Interfaces\UserRepositoryInterface;
 use App\Interfaces\OrderRepositoryInterface;
+use Illuminate\Support\Facades\DB;
+
 
 class RaveWebHookController extends Controller
 {
@@ -20,11 +22,14 @@ class RaveWebHookController extends Controller
     public function index(){
         $body = @file_get_contents("php://input");
         $response = json_decode($body);
+        
         //log this into the database
-
         $reference = $response->txRef;
         $transaction_id = $response->id;
         $transaction_status = $response->status;
+        DB::table('flutterwavehookslog')->insert(
+            ['reference' => $reference, 'transaction_id' => $transaction_id, 'body' => $body]
+        );
         //verify again before giving value
         if ($response->status == 'successful') {
             //verify transaction 
@@ -40,12 +45,10 @@ class RaveWebHookController extends Controller
                         //no need to continue, return a successful response 
                        exit(200);
                     }
-                    //update status to 1 
+                    //confirm order
                     $status = 1;
                     $confirmOrder = $this->orderRepositoryInterface->updateStatus($updateGatewayParams->id, $status);
-                    $data['order'] = $confirmOrder;
-                    $data['book'] = $confirmOrder->book;
-                   //send an email with
+                 
                 }
             }  
         }

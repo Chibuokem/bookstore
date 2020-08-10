@@ -7,6 +7,7 @@ use App\Interfaces\UserRepositoryInterface;
 use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 
+
 class UserRepository implements UserRepositoryInterface
 {
     /**
@@ -71,5 +72,27 @@ class UserRepository implements UserRepositoryInterface
         return $this->model->all();
     }
 
+    public function createUser($data)
+    {
+        // return $this->model->create($params);
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
+    }
 
+    /**
+     * Function to create admin user
+     *
+     * @return void
+     */
+    public function createAdminUser(){
+        return User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'admin_level' => 1,
+            'password' => Hash::make($data['password']),
+        ]);
+    }
 }

@@ -14,7 +14,21 @@
             <h2>Books</h2>
             <div class="recomended-sec">
                 <div class="row">
+                      @foreach($books as $book)
                     <div class="col-lg-3 col-md-6">
+                        <div class="item">
+                        <img src="{{asset('storage/'.$book->image)}}" alt="img">
+                        <h3>{{$book->name}}</h3>
+                        <h6><span class="price">₦{{$book->price}}</span> / <a href="{{ route('book', ['book' => $book->id ]) }}">Buy Now</a></h6>
+                            <div class="hover">
+                            <a href="{{ route('book', ['book' => $book->id ]) }}">
+                                <span><i class="fa fa-long-arrow-right" aria-hidden="true"></i></span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+               @endforeach 
+                    {{-- <div class="col-lg-3 col-md-6">
                         <div class="item">
                             <img src="images/img1.jpg" alt="img">
                             <h3>how to be a bwase</h3>
@@ -25,8 +39,8 @@
                             </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
+                    </div> --}}
+                    {{-- <div class="col-lg-3 col-md-6">
                         <div class="item">
                             <img src="images/img2.jpg" alt="img">
                             <h3>How to write a book...</h3>
@@ -38,8 +52,9 @@
                             </a>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6">
+                    </div> --}}
+                   
+                    {{-- <div class="col-lg-3 col-md-6">
                         <div class="item">
                             <img src="images/img3.jpg" alt="img">
                             <h3>7-day self publish...</h3>
@@ -62,10 +77,10 @@
                             </a>
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
-            <h2>recently added books to our store</h2>
+            {{-- <h2>recently added books to our store</h2>
             <div class="recent-book-sec">
                 <div class="row">
                     <div class="col-md-3">
@@ -212,7 +227,7 @@
                 <div class="btn-sec">
                     <a href="products.html" class="btn gray-btn">load More books</a>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </section>
     <footer>

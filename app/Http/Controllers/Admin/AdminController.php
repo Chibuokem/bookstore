@@ -23,6 +23,7 @@ class AdminController extends Controller
         $this->userRepositoryInterface = $userRepositoryInterface;
         $this->bookRepositoryInterface = $bookRepositoryInterface;
         $this->middleware('auth');
+        $this->middleware('admin');
     }
 
 

@@ -137,15 +137,15 @@
         </div>
         <div class="about-content">
             <h2>About bookstore,</h2>
-            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and Scrambled it to make a type and typesetting industry. Lorem Ipsum has been the book. </p>
-            <p>It has survived not only fiveLorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's printer took a galley of type and</p>
+            <p>Book store is a place where you can come and get very good books at very subsdidized prices</p>
+            <p>You can make payments for your books online and its delivered immediately to your inbox, you can register and be able to view your orders from your dashboard</p>
             <div class="btn-sec">
-                <a href="shop.html" class="btn yellow">shop books</a>
-                <a href="login.html" class="btn black">subscriptions</a>
+            <a href="{{route('books')}}" class="btn yellow">shop books</a>
+            <a href="{{route('login')}}" class="btn black">subscriptions</a>
             </div>
         </div>
     </section>
-    <section class="recent-book-sec">
+    {{-- <section class="recent-book-sec">
         <div class="container">
             <div class="title">
                 <h2>highly recommendes books</h2>
@@ -227,7 +227,7 @@
                 <a href="#" class="btn gray-btn">view all books</a>
             </div>
         </div>
-    </section>
+    </section> --}}
     <section class="features-sec">
         <div class="container">
             <ul>
@@ -235,13 +235,13 @@
                     <span class="icon"><i class="fa fa-shopping-cart" aria-hidden="true"></i></span>
                     <h3>SAFE SHOPPING</h3>
                     <h5>Safe Shopping Guarantee</h5>
-                    <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's...</h6>
+                    <h6>Your payment details are proudly secured by <a href="https://flutterwave.com/ng/">Flutterwavee</a></h6>
                 </li>
                 <li>
                     <span class="icon return"><i class="fa fa-reply-all" aria-hidden="true"></i></span>
                     <h3>30- DAY RETURN</h3>
                     <h5>Moneyback guarantee</h5>
-                    <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's...</h6>
+                    <h6>You can get refunded if for any legitimate reason your not satisfied with your order</h6>
                 </li>
                 <li>
                     <span class="icon chat"><i class="fa fa-comments" aria-hidden="true"></i></span>
@@ -279,7 +279,7 @@
             </div>
         </div>
     </section>
-    <section class="testimonial-sec">
+    {{-- <section class="testimonial-sec">
         <div class="container">
             <div id="testimonal" class="owl-carousel owl-theme">
                 <div class="item">
@@ -318,7 +318,7 @@
         <div class="right-quote">
             <img src="images/right-quote.png" alt="quote">
         </div>
-    </section>
+    </section> --}}
     @include('includes/footer')
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>

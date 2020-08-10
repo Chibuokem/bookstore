@@ -35,6 +35,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $data['user'] = $user;
+        $data['orders'] = $this->orderRepositoryInterface->getOrdersByEmail($user->email);
         return view('dashboard.home', $data);
     }
 

@@ -11,6 +11,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PurchaseInvoiceInformation;
 use App\Mail\OrderConfirmed;
+use Carbon\Carbon;
 
 
 class OrderRepository implements OrderRepositoryInterface
@@ -237,4 +238,19 @@ class OrderRepository implements OrderRepositoryInterface
         $orders = $this->model::where('email', $email)->get();
         return $orders;
     }
+
+    /**
+     *Function to get unverified orders in the past one day
+     *
+     * @return void
+     */
+    public function getUnverifiedOrders()
+    {
+        $orders = $this->model::where('status', 0)
+        ->where('created_at', '>=', Carbon::now()->subDay()->toDateTimeString())
+        ->get();
+        return $orders;
+    }
+
+ 
 }

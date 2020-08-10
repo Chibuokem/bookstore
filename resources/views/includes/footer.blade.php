@@ -4,9 +4,9 @@
                 <div class="col-md-4">
                     <div class="address">
                         <h4>Our Address</h4>
-                        <h6>The BookStore Theme, 115 Abraham Adesnaya Lagos state</h6>
+                        <h6>The BookStore 115 Abraham Adesnaya Lagos state</h6>
                         <h6>Call : 800 1234 5678</h6>
-                        <h6>Email : info@bookstore.com</h6>
+                        <h6>Email : info@bookstore.chibuokemibezim.dev/</h6>
                     </div>
                     <div class="timing">
                         <h4>Timing</h4>

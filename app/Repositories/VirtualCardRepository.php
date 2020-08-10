@@ -161,7 +161,6 @@ class VirtualCardRepository implements VirtualCardRepositoryInterface
         $requestUrl = '/virtual-cards';
         $sendRequest = $this->getRequest($requestUrl);
         if ($sendRequest['status'] == 'success') {
-            //set active to false
             $cards = $sendRequest['data'];
             foreach ($cards as $c) {
                 

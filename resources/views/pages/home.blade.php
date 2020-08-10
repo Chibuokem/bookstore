@@ -247,12 +247,12 @@
                     <span class="icon chat"><i class="fa fa-comments" aria-hidden="true"></i></span>
                     <h3>24/7 SUPPORT</h3>
                     <h5>online Consultations</h5>
-                    <h6>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's...</h6>
+                    <h6>We are always available for you to reach</h6>
                 </li>
             </ul>
         </div>
     </section>
-    <section class="offers-sec" style="background:url(images/offers.jpg)no-repeat;">
+    {{-- <section class="offers-sec" style="background:url(images/offers.jpg)no-repeat;">
         <div class="cover"></div>
         <div class="container">
             <div class="row">
@@ -278,7 +278,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
     {{-- <section class="testimonial-sec">
         <div class="container">
             <div id="testimonal" class="owl-carousel owl-theme">

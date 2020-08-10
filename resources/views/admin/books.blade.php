@@ -60,6 +60,13 @@
                         
               </div>
 
+               <div class="form-group">
+                
+                <label for="price">Book (pdf)</label>
+              <input type="file" name="book" id="book"/>
+                        
+              </div>
+
               
                     
               <div class="form-group">
@@ -152,8 +159,10 @@ $(document).ready(function() {
         }
         var fd = new FormData();
         var files = $('#image')[0].files[0];
+        var book = $('#book')[0].files[0];
         //var files = $('input[type="file" id="payment_proof"]')[0].files;
         fd.append('image', files);
+        fd.append('book', book);
         const myForm = $('form#book_form');
         //get other data inside the form
         var other_data = myForm.serializeArray();

@@ -46,12 +46,14 @@ class AdminController extends Controller
      */
     public function addBook(Request $request)
     {
+        $this->validateBookUpload($request);
         $params = array();
         $params['name'] = $request->name;
         $params['author'] = $request->author;
         $params['price'] = $request->price;
 
         $image = "";
+        $book = ""
         if ($request->has('image')) {
             // Get media file
             $image = $request->file('image');
@@ -64,7 +66,21 @@ class AdminController extends Controller
             //   $input['media'] = $uploadedMedia;
             $image  = $uploadedMedia;
         }
-        $params['image']= $image; 
+
+        if ($request->has('book')) {
+            // Get media file
+            $book = $request->file('book');
+            // Make a image name based on gig name and current timestamp
+            $bookname = Str::slug('book_file_' . $params['name']) . '_' . time();
+            // Define folder path
+            $foldername = '/uploads/bookfiles';
+            //upload media 
+            $uploadedBook = $this->uploadSingleFile($book, $foldername, $bookname);
+            //   $input['media'] = $uploadedMedia;
+            $book  = $uploadedBook;
+        }
+        $params['image']= $image;
+        $params['book'] = $book; 
          $store = $this->bookRepositoryInterface->storeBook($params);
          return response()->json(['data' => $store]);
     }
@@ -77,6 +93,7 @@ class AdminController extends Controller
      */
     public function updateBook(Request $request)
     {
+        $this->validateBookUpdate($request);
         $params = array();
         $params['name'] = $request->name;
         $params['author'] = $request->author;
@@ -125,5 +142,43 @@ class AdminController extends Controller
      */
     public function getBook(Book $book){
         return response()->json(['data' => $book]);
+    }
+
+    /**
+     * Validate book update
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function validateBookUpload(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'author' => 'required|string',
+            'price' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'image' => 'required|image',
+            "book" => "required|mimes:pdf|max:10000"
+        ]);
+
+        return $validatedData;
+    }
+
+    /**
+     * Validate book upload
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function validateBookUpdate(Request $request)
+    {
+        $validatedData = $request->validate([
+            'name' => 'required|string',
+            'author' => 'required|string',
+            'price' => 'required|regex:/^\d*(\.\d{2})?$/',
+            'image' => 'nullable|image',
+            "book" => "nullable|mimes:pdf|max:10000"
+        ]);
+
+        return $validatedData;
     }
 }

@@ -54,6 +54,8 @@ class OrderController extends Controller
      */
     public function orderSummary(Request $request)
     {
+        //validate order
+        $this->validateOrder($request);
         $book_id = $request->book_id;
         $customer_name = $request->customer_name;
         $customer_email = $request->customer_email;
@@ -84,7 +86,7 @@ class OrderController extends Controller
         $status = $request->status;
         $transaction_id = $request->transaction_id;
         $gatewayParams = $this->orderRepositoryInterface->updateGatewayParams($reference, $transaction_id, $status);
-        //check of webhook has given a value already
+        //check if webhook has given a value already
         if($gatewayParams->status == 1){
             //no need to continue, return a successful response 
             $data['order'] = $gatewayParams;
@@ -119,5 +121,22 @@ class OrderController extends Controller
     public function ravePublicKey()
     {
         return config('values.rave_public_key');
+    }
+
+    /**
+     * Validate book upload
+     *
+     * @param Request $request
+     * @return array
+     */
+    private function validateOrder(Request $request)
+    {
+        $validatedData = $request->validate([
+            'customer_name' => 'required|string',
+            'customer_email' => 'required|string',
+            'quantity' => 'required|integer'
+        ]);
+
+        return $validatedData;
     }
 }

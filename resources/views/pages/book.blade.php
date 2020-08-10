@@ -35,7 +35,7 @@
                                 <img src="{{asset('storage/'.$book->image)}}" class="img-fluid">
                             </a>
                             </li>
-                            <li class="list-inline-item">
+                            {{-- <li class="list-inline-item">
                                 <a id="carousel-selector-1" data-slide-to="1" data-target="#myCarousel">
                                 <img src="images/product2.jpg" class="img-fluid">
                             </a>
@@ -43,7 +43,7 @@
                             <li class="list-inline-item">
                                 <a id="carousel-selector-2" data-slide-to="2" data-target="#myCarousel">
                                 <img src="images/product3.jpg" class="img-fluid">
-                            </a>
+                            </a> --}}
                             </li>
                         </ul>
                     </div>
@@ -78,7 +78,7 @@
             </div>
         </div>
     </section>
-    <section class="related-books">
+    {{-- <section class="related-books">
         <div class="container">
             <h2>You may also like these book</h2>
             <div class="recomended-sec">
@@ -127,7 +127,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
      @include('includes/footer')
     <script src="{{asset('js/jquery.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>

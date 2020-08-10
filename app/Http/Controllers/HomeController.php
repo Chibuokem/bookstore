@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Interfaces\BookRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
+use App\Interfaces\OrderRepositoryInterface;
 
 class HomeController extends Controller
 {
@@ -11,8 +17,12 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
+   
+    public function __construct(OrderRepositoryInterface $orderRepositoryInterface, UserRepositoryInterface $userRepositoryInterface, BookRepositoryInterface $bookRepositoryInterface)
     {
+        $this->orderRepositoryInterface = $orderRepositoryInterface;
+        $this->userRepositoryInterface = $userRepositoryInterface;
+        $this->bookRepositoryInterface = $bookRepositoryInterface;
         $this->middleware('auth');
     }
 
@@ -23,6 +33,21 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('dashboard.home');
+        $user = Auth::user();
+        $data['user'] = $user;
+        return view('dashboard.home', $data);
+    }
+
+    /**
+     * View user orders
+     *
+     * @return void
+     */
+    public function viewOrders()
+    {
+        $user = Auth::user();
+        $data['user'] = $user;
+        $data['orders'] = $this->orderRepositoryInterface->getOrdersByEmail($user->email);
+        return view('dashboard.orders', $data);   
     }
 }

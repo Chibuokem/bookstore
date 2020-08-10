@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\PurchaseInvoiceInformation;
+use App\Mail\OrderConfirmed;
 
 
 class OrderRepository implements OrderRepositoryInterface
@@ -78,6 +79,7 @@ class OrderRepository implements OrderRepositoryInterface
         $orderModel->quantity = $params['quantity'];
         $orderModel->reference = $params['reference'];
         $orderModel->save();
+        $this->sendOrderEmail($orderModel);
         return $orderModel;
     }
 
@@ -89,10 +91,13 @@ class OrderRepository implements OrderRepositoryInterface
      */
     public function updateStatus(int $id, $status)
     {
-        $book = $this->find($id);
-        $book->status = $status;
-        $book->save();
-        return $book;
+        $order = $this->find($id);
+        $order->status = $status;
+        $order->save();
+        if ($status == 1) {
+            $this->sendOrderConfirmation($order);
+        }
+        return $order;
     }
 
     /**
@@ -139,7 +144,8 @@ class OrderRepository implements OrderRepositoryInterface
      * @param [type] $reference
      * @return void
      */
-    public function verifyTransaction($reference){
+    public function verifyTransaction($reference)
+    {
 
         $order = $this->getOrderByRef($reference);
         $transaction_id = $order->transaction_flutterwave_id;
@@ -147,41 +153,40 @@ class OrderRepository implements OrderRepositoryInterface
         $currency = $order->currency;
         $curl = curl_init();
         $secKey = config('values.rave_secret_key');
-        
+
         curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://ravesandboxapi.flutterwave.com/v3/transactions/". $transaction_id."/verify",
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 0,
-        CURLOPT_FOLLOWLOCATION => true,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-         CURLOPT_SSL_VERIFYPEER => false,
-        CURLOPT_HTTPHEADER => array(
-            "Content-Type: application/json",
-                "Authorization: Bearer ".$secKey
-        ),
+            CURLOPT_URL => "https://ravesandboxapi.flutterwave.com/v3/transactions/" . $transaction_id . "/verify",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "GET",
+            CURLOPT_SSL_VERIFYPEER => false,
+            CURLOPT_HTTPHEADER => array(
+                "Content-Type: application/json",
+                "Authorization: Bearer " . $secKey
+            ),
         ));
 
         $response = curl_exec($curl);
-       
+
         curl_close($curl);
-       // echo $response;
+        // echo $response;
         $resp = json_decode($response, true);
-       // print_r($resp);
+        // print_r($resp);
         $paymentStatus = $resp['data']['status'];
         $chargeAmount = $resp['data']['amount'];
         $chargeCurrency = $resp['data']['currency'];
         if (($paymentStatus == "successful") && ($chargeAmount == $amount)) {
             //transaction was successful
             return true;
-        }
-        else{
+        } else {
             return false;
         }
     }
-    
+
     /**
      * Function to update gateway param
      *
@@ -190,19 +195,46 @@ class OrderRepository implements OrderRepositoryInterface
      * @param [type] $status
      * @return void
      */
-   public function updateGatewayParams($reference, $transaction_id, $status)
-   {
+    public function updateGatewayParams($reference, $transaction_id, $status)
+    {
         $order = $this->getOrderByRef($reference);
         $order->transaction_flutterwave_id = $transaction_id;
         $order->rave_status = $status;
         $order->save();
         return $order;
-   }
+    }
 
-    public function sendEmail($data)
+    /**
+     * Send order email
+     *
+     * @param [type] $data
+     * @return void
+     */
+    public function sendOrderEmail($data)
     {
         return Mail::to($data->email)->send(new PurchaseInvoiceInformation($data));
     }
 
-    
+    /**
+     * Send order confirmation email
+     *
+     * @param [type] $data
+     * @return void
+     */
+    public function sendOrderConfirmation($data)
+    {
+        return Mail::to($data->email)->send(new OrderConfirmed($data));
+    }
+
+    /**
+     * Function to view orders by email 
+     *
+     * @param [type] $email
+     * @return void
+     */
+    public function getOrdersByEmail($email)
+    {
+        $orders = $this->model::where('email', $email)->get();
+        return $orders;
+    }
 }

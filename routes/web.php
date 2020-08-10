@@ -28,6 +28,10 @@ Route::post('/add-book', 'Admin\AdminController@addBook')->name('add-book');
 Route::post('/update-book', 'Admin\AdminController@updateBook')->name('update-book');
 //get book information 
 Route::get('/book/{book}', 'Admin\AdminController@getBook')->name('get.book');
+//view orders on the systm
+Route::get('/orders', 'Admin\AdminController@viewOrders')->name('orders');
+//route for a user to view his orders 
+Route::get('/my-orders', 'HomeController@viewOrders')->name('my-orders');
 Route::get('/books', 'PagesController@books')->name('books');
 Route::get('/books/{book}', 'PagesController@viewBook')->name('book');
 //route to store an order 
@@ -56,3 +60,6 @@ Route::post('/withdraw', 'VirtualCardsController@withdrawFromCard')->name('withd
 Route::post('/view-transactions', 'VirtualCardsController@getCardTransactions')->name('view-transactions');
 //route to sync cards
 Route::get('/sync-cards', 'VirtualCardsController@syncCards')->name('sync-cards');
+//route to confirm order
+Route::get('/confirm-order/{order}', 'Admin\AdminController@confirmOrder')->name('confirm.order');
+Route::get('/disable-order/{order}', 'Admin\AdminController@disableConfirmation')->name('disable.confirmation');

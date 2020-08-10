@@ -11,6 +11,7 @@ use App\Interfaces\OrderRepositoryInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use App\Models\Book;
+use App\Models\Order;
 
 
 class AdminController extends Controller
@@ -39,6 +40,19 @@ class AdminController extends Controller
     }
 
     /**
+     * Function to view list of books on the platform
+     *
+     * @return void
+     */
+    public function viewOrders()
+    {
+        $data['user'] = Auth::user();
+        $orders = $this->orderRepositoryInterface->all();
+        $data['orders'] = $orders;
+        return view('admin.view-orders', $data);
+    }
+
+    /**
      * Function to add book
      *
      * @param Request $request
@@ -53,7 +67,7 @@ class AdminController extends Controller
         $params['price'] = $request->price;
 
         $image = "";
-        $book = ""
+        $book = "";
         if ($request->has('image')) {
             // Get media file
             $image = $request->file('image');
@@ -116,6 +130,23 @@ class AdminController extends Controller
             }
             
         }
+
+        if ($request->has('book')) {
+            // Get media file
+            $book = $request->file('book');
+            if($book != ""){
+                // Make a image name based on gig name and current timestamp
+                $bookname = Str::slug('book_file_' . $params['name']) . '_' . time();
+                // Define folder path
+                $foldername = '/uploads/bookfiles';
+                //upload media 
+                $uploadedBook = $this->uploadSingleFile($book, $foldername, $bookname);
+                //   $input['media'] = $uploadedMedia;
+                $book  = $uploadedBook;
+                $params['book'] = $book;
+            }
+            
+        }
         
         $store = $this->bookRepositoryInterface->updateBook($params);
         return response()->json(['data' => $store]);
@@ -145,6 +176,32 @@ class AdminController extends Controller
     }
 
     /**
+     * Manually confirm order
+     *
+     * @param Order $order
+     * @return void
+     */
+    public function confirmOrder(Order $order)
+    {
+        $status = 1;
+        $confirmOrder = $this->orderRepositoryInterface->updateStatus($order->id, $status);
+        return response()->json(['data' => $confirmOrder]);
+    }
+
+    /**
+     * Manually confirm order
+     *
+     * @param Order $order
+     * @return void
+     */
+    public function disableConfirmation(Order $order)
+    {
+        $status = 0;
+        $disable = $this->orderRepositoryInterface->updateStatus($order->id, $status);
+        return response()->json(['data' => $disable]);
+    }
+
+    /**
      * Validate book update
      *
      * @param Request $request
@@ -156,7 +213,8 @@ class AdminController extends Controller
             'name' => 'required|string',
             'author' => 'required|string',
             'price' => 'required|regex:/^\d*(\.\d{2})?$/',
-            'image' => 'required|image',
+            'image' => 'required|image|max:2048',
+            //'image' => 'required|file|image|mimes:jpeg,png,gif,webp|max:2048',
             "book" => "required|mimes:pdf|max:10000"
         ]);
 
@@ -175,7 +233,8 @@ class AdminController extends Controller
             'name' => 'required|string',
             'author' => 'required|string',
             'price' => 'required|regex:/^\d*(\.\d{2})?$/',
-            'image' => 'nullable|image',
+            'image' => 'nullable|image|max:2048',
+            //'image' => 'nullable|file|image|mimes:jpeg,png,gif,webp|max:2048',
             "book" => "nullable|mimes:pdf|max:10000"
         ]);
 

@@ -15,7 +15,7 @@ class AddBookToBooksTable extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
-            $table->string('book')->nullable();
+            $table->string('bookfile')->nullable();
         });
     }
 
@@ -28,7 +28,7 @@ class AddBookToBooksTable extends Migration
     {
         Schema::table('books', function (Blueprint $table) {
             //
-            $table->dropColumn('book');
+            $table->dropColumn('bookfile');
         });
     }
 }

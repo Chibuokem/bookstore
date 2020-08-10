@@ -242,7 +242,14 @@ $(document).on('click', '#update-book', function(e) {
         }
         var fd = new FormData();
         var files = $('#image_update')[0].files[0];
-        fd.append('image', files);
+        var book = $('#book_update')[0].files[0];
+        if(files != ""){
+          fd.append('image', files);
+        }
+        if(book != ""){
+         fd.append('book', book);
+        }
+        
         const myForm = $('form#edit-book-form');
         //get other data inside the form
         var other_data = myForm.serializeArray();
@@ -315,6 +322,12 @@ const editBook = (data) => {
               <div class="form-group">
                  <label for="type">Cover image</label>
                 <input type="file" name="image" class="form-control" id="image_update"/>
+              
+              </div>
+
+               <div class="form-group">
+                 <label for="type">Book file</label>
+                <input type="file" name="book" class="form-control" id="book_update"/>
               
               </div>
               

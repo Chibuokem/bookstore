@@ -67,7 +67,7 @@ class BookRepository implements BookRepositoryInterface
         $bookModel->name = $params['name'];
         $bookModel->author = $params['author'];
         $bookModel->image = $params['image'];
-        $bookModel->book = $params['book'];
+        $bookModel->bookfile = $params['book'];
         $bookModel->price = $params['price'];
         $bookModel->save();
         return $bookModel;
@@ -89,7 +89,7 @@ class BookRepository implements BookRepositoryInterface
         }
 
         if (isset($params['book'])) {
-            $book->book = $params['book'];
+            $book->bookfile = $params['book'];
         }  
         $book->price = $params['price'];
         $book->save();

@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class PurchaseInvoiceInformation extends Mailable
+class OrderConfirmed extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -30,6 +30,7 @@ class PurchaseInvoiceInformation extends Mailable
     public function build()
     {
         $data['order'] = $this->data;
-        return $this->view('emails.invoice', $data);
+        return $this->view('emails.order-confirmation', $data);
+            //->attach(storage_path($this->data->book->bookfile));
     }
 }

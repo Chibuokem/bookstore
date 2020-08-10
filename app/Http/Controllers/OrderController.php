@@ -87,7 +87,7 @@ class OrderController extends Controller
         $transaction_id = $request->transaction_id;
         $gatewayParams = $this->orderRepositoryInterface->updateGatewayParams($reference, $transaction_id, $status);
         //check if webhook has given a value already
-        if($gatewayParams->status == 1){
+        if ($gatewayParams->status == 1) {
             //no need to continue, return a successful response 
             $data['order'] = $gatewayParams;
             $data['book'] = $gatewayParams->book;
@@ -102,9 +102,8 @@ class OrderController extends Controller
             $data['order'] = $confirmOrder;
             $data['book'] = $confirmOrder->book;
             return response()->json(['data' => $data, 'status' => 1]);
-        }
-        else{
-            return response()-json(['data'=> $verify, 'status' => 0]);
+        } else {
+            return response() - json(['data' => $verify, 'status' => 0]);
         }
     }
     /**

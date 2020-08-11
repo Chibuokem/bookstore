@@ -63,7 +63,7 @@
                                             <td>
                                                 @if ($order->status == 1) <button
                                                         class="disable-confirmation btn btn-danger"
-                                                        data-url="{{ route('confirm.order', ['order' => $order->id]) }}">Disable
+                                                        data-url="{{ route('disable.confirmation', ['order' => $order->id]) }}">Disable
                                                     confirmation</button> @else <button class="confirm-order btn btn-danger"
                                                         data-url="{{ route('confirm.order', ['order' => $order->id]) }}">Confirm
                                                         order</button> @endif

@@ -132,7 +132,7 @@ class OrderController extends Controller
     {
         $validatedData = $request->validate([
             'customer_name' => 'required|string',
-            'customer_email' => 'required|string',
+            'customer_email' => 'required|string|email',
             'quantity' => 'required|integer'
         ]);
 
